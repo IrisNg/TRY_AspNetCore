@@ -8,22 +8,22 @@ namespace TRY_AspNetCore_API.Controllers
     [ApiController]
     public class ResourcesController : ControllerBase
     {
-        private readonly ILogger<ResourcesController> logger;
+        private readonly ILogger<ResourcesController> _logger;
 
         public ResourcesController(ILogger<ResourcesController> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllResources()
         {
-            logger.LogInformation("Information");
-            logger.LogDebug("Debug");
-            logger.LogWarning("Warning");
-            logger.LogError("Error");
+            _logger.LogInformation("Information");
+            _logger.LogDebug("Debug");
+            _logger.LogWarning("Warning");
+            _logger.LogError("Error");
 
-            logger.LogInformation(
+            _logger.LogInformation(
                 $"GetAllResources request completed with data: {JsonSerializer.Serialize(new { Desc = "object data" })}"
             );
             return Ok("Placeholder");
