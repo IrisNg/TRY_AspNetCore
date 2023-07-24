@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace TRY_AspNetCore_API.Controllers
+namespace TRY_AspNetCore_API.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class ResourcesController : ControllerBase
     {
         private readonly ILogger<ResourcesController> _logger;
@@ -16,7 +17,7 @@ namespace TRY_AspNetCore_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllResources()
+        public async Task<IActionResult> GetAllResourcesV1()
         {
             _logger.LogInformation("Information");
             _logger.LogDebug("Debug");
@@ -26,7 +27,7 @@ namespace TRY_AspNetCore_API.Controllers
             _logger.LogInformation(
                 $"GetAllResources request completed with data: {JsonSerializer.Serialize(new { Desc = "object data" })}"
             );
-            return Ok("Placeholder");
+            return Ok("v1 Placeholder");
         }
     }
 }
