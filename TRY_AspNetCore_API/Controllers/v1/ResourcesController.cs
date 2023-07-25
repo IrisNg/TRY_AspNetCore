@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using TRY_AspNetCore_API.ActionFilters;
 
 namespace TRY_AspNetCore_API.Controllers.v1
 {
@@ -27,6 +28,13 @@ namespace TRY_AspNetCore_API.Controllers.v1
             _logger.LogInformation(
                 $"GetAllResources request completed with data: {JsonSerializer.Serialize(new { Desc = "object data" })}"
             );
+            return Ok("v1 Placeholder");
+        }
+
+        [HttpPost]
+        [ValidateModel]
+        public async Task<IActionResult> CreateResourceV1()
+        {
             return Ok("v1 Placeholder");
         }
     }
