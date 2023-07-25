@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TRY_AspNetCore_API;
+using TRY_AspNetCore_API.Data;
 using TRY_AspNetCore_API.Mappings;
 using TRY_AspNetCore_API.Middlewares;
 
@@ -41,7 +43,10 @@ builder.Services.AddVersionedApiExplorer(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// DbContext
+// Add DbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnectionString"))
+);
 
 // Add Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
