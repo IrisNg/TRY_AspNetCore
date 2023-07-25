@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -10,10 +11,12 @@ namespace TRY_AspNetCore_API.Controllers.v1
     public class ResourcesController : ControllerBase
     {
         private readonly ILogger<ResourcesController> _logger;
+        private readonly IMapper _mapper;
 
-        public ResourcesController(ILogger<ResourcesController> logger)
+        public ResourcesController(ILogger<ResourcesController> logger, IMapper mapper)
         {
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,6 +30,9 @@ namespace TRY_AspNetCore_API.Controllers.v1
             _logger.LogInformation(
                 $"GetAllResources request completed with data: {JsonSerializer.Serialize(new { Desc = "object data" })}"
             );
+
+            // var resourceDto = _mapper.Map<ResourceDtoV1>(resourceDomainModel);
+
             return Ok("v1 Placeholder");
         }
     }

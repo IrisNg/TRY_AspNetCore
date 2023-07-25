@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using TRY_AspNetCore_API;
+using TRY_AspNetCore_API.Mappings;
 using TRY_AspNetCore_API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add logging
+/* Add logging. */
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("Logs/API_Log.txt", rollingInterval: RollingInterval.Day)
@@ -15,7 +16,7 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-// Add services to the container.
+/* Add services to the container. */
 
 builder.Services.AddControllers();
 
@@ -40,7 +41,15 @@ builder.Services.AddVersionedApiExplorer(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DbContext
+
+// Add Automapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+
+/* Build App. */
 
 var app = builder.Build();
 
@@ -48,7 +57,8 @@ var versionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDesc
 
 
 
-// Configure the HTTP request pipeline.
+/* Configure the HTTP request pipeline. */
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
