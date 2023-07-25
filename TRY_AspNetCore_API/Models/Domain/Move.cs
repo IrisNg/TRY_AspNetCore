@@ -18,8 +18,7 @@ namespace TRY_AspNetCore_API.Models.Domain
         public int? Accuracy { get; set; }
         public int? PP { get; set; }
 
-        public List<MovePokemon> MovePokemons { get; } = new();
-        public List<Pokemon> Pokemons { get; } = new();
+        public ICollection<PokemonMove> Pokemons { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

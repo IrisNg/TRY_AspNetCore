@@ -15,16 +15,40 @@ namespace TRY_AspNetCore_API.Data
         public DbSet<Type> Types { get; set; }
         public DbSet<Move> Moves { get; set; }
 
-        public DbSet<TypePokemon> TypePokemons { get; set; }
-        public DbSet<MovePokemon> MovesPokemons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Many-To-Many
+            modelBuilder.Entity<PokemonType>()
+                .HasKey(pt => new { pt.PokemonId, pt.TypeId });
+
+            modelBuilder.Entity<PokemonType>()
+                .HasOne(pt => pt.Pokemon)
+                .WithMany(pt => pt.Types)
+                .HasForeignKey(pt => pt.PokemonId);
+            modelBuilder.Entity<PokemonType>()
+                .HasOne(pt => pt.Type)
+                .WithMany(pt => pt.Pokemons)
+                .HasForeignKey(pt => pt.TypeId);
+
+
+            modelBuilder.Entity<PokemonMove>()
+                .HasKey(pt => new { pt.PokemonId, pt.MoveId });
+
+            modelBuilder.Entity<PokemonMove>()
+                .HasOne(pt => pt.Pokemon)
+                .WithMany(pt => pt.Moves)
+                .HasForeignKey(pt => pt.PokemonId);
+            modelBuilder.Entity<PokemonMove>()
+                .HasOne(pt => pt.Move)
+                .WithMany(pt => pt.Pokemons)
+                .HasForeignKey(pt => pt.MoveId);
+
+
             // Seed entities
             // modelBuilder.Entity<Resource>().HasData(seedData);
         }
-
     }
 }

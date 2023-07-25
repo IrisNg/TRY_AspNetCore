@@ -12,8 +12,7 @@ namespace TRY_AspNetCore_API.Models.Domain
         public string? Url { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        public List<TypePokemon> TypePokemons { get; } = new();
-        public List<Pokemon> Pokemons { get; } = new();
+        public ICollection<PokemonType> Pokemons { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

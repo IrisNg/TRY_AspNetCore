@@ -3,10 +3,8 @@ using TRY_AspNetCore_API.Models.Domain;
 
 namespace TRY_AspNetCore_API.Models.DTOs.v1
 {
-    public class TypePokemonDtoV1
+    public class PokemonTypeDtoV1
     {
-        public int Id { get; set; }
-
         public int Slot { get; set; }
 
         public int PokemonId { get; set; }

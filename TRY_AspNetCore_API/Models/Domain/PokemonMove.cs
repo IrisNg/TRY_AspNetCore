@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TRY_AspNetCore_API.Models.Domain
 {
-    public class MovePokemon
+    public class PokemonMove
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [ForeignKey("Pokemon")]
         public int PokemonId { get; set; }
         [ForeignKey("Move")]
@@ -20,7 +16,7 @@ namespace TRY_AspNetCore_API.Models.Domain
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
-        public MovePokemon()
+        public PokemonMove()
         {
             this.CreatedDate = DateTime.UtcNow;
             this.UpdatedDate = DateTime.UtcNow;
