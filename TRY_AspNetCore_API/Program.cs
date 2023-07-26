@@ -5,6 +5,7 @@ using TRY_AspNetCore_API;
 using TRY_AspNetCore_API.Data;
 using TRY_AspNetCore_API.Mappings;
 using TRY_AspNetCore_API.Middlewares;
+using TRY_AspNetCore_API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnectionString"))
 );
+// Add repositories mapping
+builder.Services.AddScoped<IPokemonRepository, SQLPokemonRepository>();
 
 // Add Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

@@ -40,6 +40,7 @@ namespace TRY_AspNetCore_API.Controllers.v1
 
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<PokemonDtoV1>>> GetAllPokemonsV1()
         {
 
@@ -48,6 +49,7 @@ namespace TRY_AspNetCore_API.Controllers.v1
 
         [HttpPost]
         [ValidateModel]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<PokemonDtoV1>> CreatePokemonV1()
         {
             var pokemonDto = new PokemonDtoV1();
@@ -57,10 +59,13 @@ namespace TRY_AspNetCore_API.Controllers.v1
 
         [HttpGet]
         [Route("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PokemonDtoV1>> GetByIdPokemonV1([FromRoute] int id)
         {
             var pokemonDto = new PokemonDtoV1();
             return Ok(pokemonDto);
         }
+
+
     }
 }

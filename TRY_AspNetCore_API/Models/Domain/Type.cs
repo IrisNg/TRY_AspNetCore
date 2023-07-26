@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TRY_AspNetCore_API.Models.Domain
 {
-    public class Type
+    public class Type : IEntityHasId
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
