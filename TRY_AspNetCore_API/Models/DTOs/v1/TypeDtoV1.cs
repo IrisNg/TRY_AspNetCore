@@ -9,6 +9,6 @@ namespace TRY_AspNetCore_API.Models.DTOs.v1
         public string? Url { get; set; }
         public string Name { get; set; }
 
-        public List<PokemonDtoV1> Pokemons { get; } = new();
+        public List<PokemonDtoV1> Pokemons { get; set; }
     }
 }

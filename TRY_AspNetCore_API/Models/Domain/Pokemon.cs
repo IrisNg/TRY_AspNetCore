@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TRY_AspNetCore_API.Models.Domain
 {
-    public class Pokemon : IEntityHasId
+    public class Pokemon : IEntityHasId, IEntityHasTimeStamp
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,9 +11,9 @@ namespace TRY_AspNetCore_API.Models.Domain
 
         public string Name { get; set; }
 
-        public ICollection<PokemonType> Types { get; set; }
+        public ICollection<PokemonType>? Types { get; set; }
 
-        public ICollection<PokemonMove> Moves { get; set; }
+        public ICollection<PokemonMove>? Moves { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

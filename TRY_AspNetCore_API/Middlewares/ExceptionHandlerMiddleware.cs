@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using TRY_AspNetCore_API.Logging;
+using TRY_AspNetCore_API.Models.Responses;
 
 namespace TRY_AspNetCore_API.Middlewares
 {
@@ -6,11 +8,13 @@ namespace TRY_AspNetCore_API.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+        private readonly ILogging _logFormatter;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger, ILogging logFormatter)
         {
             _next = next;
             _logger = logger;
+            _logFormatter = logFormatter;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -21,23 +25,22 @@ namespace TRY_AspNetCore_API.Middlewares
             }
             catch (Exception ex)
             {
-                var statusCode = (int)HttpStatusCode.InternalServerError;
+                var statusCode = HttpStatusCode.InternalServerError;
 
                 var errorId = Guid.NewGuid();
 
-                var body = new
+                var body = new ErrorResponse
                 {
                     StatusCode = statusCode,
-                    IsSuccess = false,
                     ErrorId = errorId,
                     Message = "Something went wrong on the server side."
                 };
 
                 // Log error
-                _logger.LogError(ex, $"ERROR({errorId}): {ex.Message}");
+                _logger.LogError(ex, _logFormatter.GetLog(ex.Message, logId: errorId));
 
                 // Response headers and body
-                httpContext.Response.StatusCode = statusCode;
+                httpContext.Response.StatusCode = (int)statusCode;
                 httpContext.Response.ContentType = "application/json";
 
                 await httpContext.Response.WriteAsJsonAsync(body);

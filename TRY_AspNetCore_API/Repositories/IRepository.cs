@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq.Expressions;
 using TRY_AspNetCore_API.Models.Domain;
 
 namespace TRY_AspNetCore_API.Repositories
@@ -8,7 +9,7 @@ namespace TRY_AspNetCore_API.Repositories
     public interface IRepository<TEntity>
         where TEntity : class, IEntityHasId
     {
-        public Task<List<TEntity>> GetAllAsync(
+        public Task<WithCount<List<TEntity>>> GetAllAsync(
             Expression<Func<TEntity, bool>>[]? filters = null,
             Expression<Func<TEntity, object>>[]? includes = null,
             Expression<Func<TEntity, object>>[]? sortBy = null,

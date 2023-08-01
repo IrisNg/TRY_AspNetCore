@@ -88,7 +88,7 @@ namespace TRY_AspNetCore_API.Repositories
         }
 
 
-        public async Task<List<TEntity>> GetAllAsync(
+        public async Task<WithCount<List<TEntity>>> GetAllAsync(
             Expression<Func<TEntity, bool>>[]? filters = null,
             Expression<Func<TEntity, object>>[]? includes = null,
             Expression<Func<TEntity, object>>[]? sortBy = null,
@@ -114,7 +114,16 @@ namespace TRY_AspNetCore_API.Repositories
             var skipResults = (pageNumber - 1) * pageSize;
             query = query.Skip(skipResults).Take(pageSize);
 
-            return await query.ToListAsync();
+            // Get list
+            var list = await query.ToListAsync();
+
+            // Count
+            IQueryable<TEntity> countQuery = _dbSet.AsQueryable();
+            countQuery = WhereMultiple(countQuery, filters);
+
+            var count = await countQuery.CountAsync();
+
+            return new WithCount<List<TEntity>> { Data = list, Count = count };
         }
 
 

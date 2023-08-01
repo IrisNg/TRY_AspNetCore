@@ -3,17 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TRY_AspNetCore_API;
 using TRY_AspNetCore_API.Data;
+using TRY_AspNetCore_API.Logging;
 using TRY_AspNetCore_API.Mappings;
 using TRY_AspNetCore_API.Middlewares;
 using TRY_AspNetCore_API.Repositories;
 
+const string AllowedOrigins = "AllowedOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 /* Add logging. */
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("Logs/API_Log.txt", rollingInterval: RollingInterval.Day)
-    .MinimumLevel.Debug()
+    .MinimumLevel.Information()
     .CreateLogger();
 
 builder.Logging.ClearProviders();
@@ -22,6 +27,16 @@ builder.Logging.AddSerilog(logger);
 /* Add services to the container. */
 
 builder.Services.AddControllers();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowedOrigins,
+        policy =>
+        {
+            policy.AllowCredentials().WithOrigins("http://localhost:4200");
+        });
+});
 
 // Add API versioning
 builder.Services.AddApiVersioning(options =>
@@ -54,6 +69,9 @@ builder.Services.AddScoped<IPokemonRepository, SQLPokemonRepository>();
 // Add Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+// Add custom logging formatter
+builder.Services.AddSingleton<ILogging, Logging>();
+
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 
@@ -84,6 +102,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors(AllowedOrigins);
 
 app.UseAuthorization();
 
