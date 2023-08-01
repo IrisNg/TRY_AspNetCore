@@ -15,12 +15,16 @@ namespace TRY_AspNetCore_API.Data
         public DbSet<Type> Types { get; set; }
         public DbSet<Move> Moves { get; set; }
 
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Many-To-Many
+
             modelBuilder.Entity<PokemonType>()
                 .HasKey(pt => new { pt.PokemonId, pt.TypeId });
 
